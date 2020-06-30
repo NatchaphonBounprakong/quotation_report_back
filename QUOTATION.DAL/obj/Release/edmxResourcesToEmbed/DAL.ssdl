@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUOATATIONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CUSTOMER">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+    <Property Name="ADDRESS1" Type="nvarchar" MaxLength="200" />
+    <Property Name="ADDRESS2" Type="nvarchar" MaxLength="200" />
+    <Property Name="MOBILE" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="CUSTOMER_CONTACT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+    <Property Name="MOBILE" Type="nvarchar" MaxLength="10" />
+    <Property Name="CUSTOMER_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USER_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PASSWORD" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar" MaxLength="200" />
+    <Property Name="EMAIL" Type="nvarchar" MaxLength="50" />
+    <Property Name="MOBILE" Type="nvarchar" MaxLength="10" />
+    <Property Name="SALE_OFFICE" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="EQUIPMENT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+    <Property Name="TYPE" Type="int" />
+  </EntityType>
+  <EntityType Name="NOTE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DETAIL" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="QUOTATION">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NO" Type="nvarchar" MaxLength="50" />
+    <Property Name="TYPE" Type="int" />
+    <Property Name="BOSS_RATE" Type="money" Nullable="false" />
+    <Property Name="BOSS_SHIFT_1" Type="int" Nullable="false" />
+    <Property Name="BOSS_SHIFT_2" Type="int" Nullable="false" />
+    <Property Name="GUARD_MAN_RATE" Type="money" Nullable="false" />
+    <Property Name="GUARD_MAN_SHIFT_1" Type="int" Nullable="false" />
+    <Property Name="GUARD_MAN_SHIFT_2" Type="int" Nullable="false" />
+    <Property Name="GUARD_WOMAN_RATE" Type="money" Nullable="false" />
+    <Property Name="GUARD_WOMAN_SHIFT_1" Type="int" Nullable="false" />
+    <Property Name="GUARD_WOMAN_SHIFT_2" Type="int" Nullable="false" />
+    <Property Name="BAIL_RATE" Type="money" />
+    <Property Name="CREATE_DATE" Type="datetime" />
+    <Property Name="CONTACT_ID" Type="int" Nullable="false" />
+    <Property Name="SALE_OFFICE_ID" Type="int" Nullable="false" />
+    <Property Name="EMPLOYEE_ID" Type="int" Nullable="false" />
+    <Property Name="CRATE_BY" Type="nvarchar" MaxLength="50" />
+    <Property Name="UPDATE_BY" Type="nvarchar" MaxLength="50" />
+    <Property Name="UPDATE_DATE" Type="datetime" />
+  </EntityType>
+  <EntityType Name="QUOTATION_EQUIPMENT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QUOTATION_ID" Type="int" Nullable="false" />
+    <Property Name="EQUIPMENT_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QUOTATION_NOTE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QUOTATION_ID" Type="int" Nullable="false" />
+    <Property Name="NOTE_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SALE_OFFICE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+    <Property Name="ADDRESS1" Type="nvarchar(max)" />
+    <Property Name="ADDRESS2" Type="nvarchar(max)" />
+    <Property Name="MOBILE" Type="nvarchar" MaxLength="10" />
+    <Property Name="WEBSITE" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_CUSTOMER_CONTACT_CUSTOMER">
+    <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="1" />
+    <End Role="CUSTOMER_CONTACT" Type="Self.CUSTOMER_CONTACT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_CONTACT">
+        <PropertyRef Name="CUSTOMER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_CUSTOMER_CONTACT">
+    <End Role="CUSTOMER_CONTACT" Type="Self.CUSTOMER_CONTACT" Multiplicity="1" />
+    <End Role="QUOTATION" Type="Self.QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_CONTACT">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="CONTACT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EMPLOYEE">
+    <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="1" />
+    <End Role="QUOTATION" Type="Self.QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EMPLOYEE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="EMPLOYEE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EQUIPMENT_EQUIPMENT">
+    <End Role="EQUIPMENT" Type="Self.EQUIPMENT" Multiplicity="1" />
+    <End Role="QUOTATION_EQUIPMENT" Type="Self.QUOTATION_EQUIPMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPMENT">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_EQUIPMENT">
+        <PropertyRef Name="EQUIPMENT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EQUIPMENT_QUOTATION">
+    <End Role="QUOTATION" Type="Self.QUOTATION" Multiplicity="1" />
+    <End Role="QUOTATION_EQUIPMENT" Type="Self.QUOTATION_EQUIPMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUOTATION">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_EQUIPMENT">
+        <PropertyRef Name="QUOTATION_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_NOTE_NOTE">
+    <End Role="NOTE" Type="Self.NOTE" Multiplicity="1" />
+    <End Role="QUOTATION_NOTE" Type="Self.QUOTATION_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NOTE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_NOTE">
+        <PropertyRef Name="NOTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_NOTE_QUOTATION">
+    <End Role="QUOTATION" Type="Self.QUOTATION" Multiplicity="1" />
+    <End Role="QUOTATION_NOTE" Type="Self.QUOTATION_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUOTATION">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_NOTE">
+        <PropertyRef Name="QUOTATION_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_SALE_OFFICE">
+    <End Role="SALE_OFFICE" Type="Self.SALE_OFFICE" Multiplicity="1" />
+    <End Role="QUOTATION" Type="Self.QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SALE_OFFICE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="SALE_OFFICE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QUOATATIONModelStoreContainer">
+    <EntitySet Name="CUSTOMER" EntityType="Self.CUSTOMER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CUSTOMER_CONTACT" EntityType="Self.CUSTOMER_CONTACT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EQUIPMENT" EntityType="Self.EQUIPMENT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NOTE" EntityType="Self.NOTE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QUOTATION" EntityType="Self.QUOTATION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QUOTATION_EQUIPMENT" EntityType="Self.QUOTATION_EQUIPMENT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QUOTATION_NOTE" EntityType="Self.QUOTATION_NOTE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SALE_OFFICE" EntityType="Self.SALE_OFFICE" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CUSTOMER_CONTACT_CUSTOMER" Association="Self.FK_CUSTOMER_CONTACT_CUSTOMER">
+      <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+      <End Role="CUSTOMER_CONTACT" EntitySet="CUSTOMER_CONTACT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_CUSTOMER_CONTACT" Association="Self.FK_QUOTATION_CUSTOMER_CONTACT">
+      <End Role="CUSTOMER_CONTACT" EntitySet="CUSTOMER_CONTACT" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EMPLOYEE" Association="Self.FK_QUOTATION_EMPLOYEE">
+      <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EQUIPMENT_EQUIPMENT" Association="Self.FK_QUOTATION_EQUIPMENT_EQUIPMENT">
+      <End Role="EQUIPMENT" EntitySet="EQUIPMENT" />
+      <End Role="QUOTATION_EQUIPMENT" EntitySet="QUOTATION_EQUIPMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EQUIPMENT_QUOTATION" Association="Self.FK_QUOTATION_EQUIPMENT_QUOTATION">
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+      <End Role="QUOTATION_EQUIPMENT" EntitySet="QUOTATION_EQUIPMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_NOTE_NOTE" Association="Self.FK_QUOTATION_NOTE_NOTE">
+      <End Role="NOTE" EntitySet="NOTE" />
+      <End Role="QUOTATION_NOTE" EntitySet="QUOTATION_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_NOTE_QUOTATION" Association="Self.FK_QUOTATION_NOTE_QUOTATION">
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+      <End Role="QUOTATION_NOTE" EntitySet="QUOTATION_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_SALE_OFFICE" Association="Self.FK_QUOTATION_SALE_OFFICE">
+      <End Role="SALE_OFFICE" EntitySet="SALE_OFFICE" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

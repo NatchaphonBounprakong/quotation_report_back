@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QUOATATIONModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="QUOATATIONEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CUSTOMER" EntityType="QUOATATIONModel.CUSTOMER" />
+    <EntitySet Name="CUSTOMER_CONTACT" EntityType="QUOATATIONModel.CUSTOMER_CONTACT" />
+    <EntitySet Name="EMPLOYEE" EntityType="QUOATATIONModel.EMPLOYEE" />
+    <EntitySet Name="EQUIPMENT" EntityType="QUOATATIONModel.EQUIPMENT" />
+    <EntitySet Name="NOTE" EntityType="QUOATATIONModel.NOTE" />
+    <EntitySet Name="QUOTATION_EQUIPMENT" EntityType="QUOATATIONModel.QUOTATION_EQUIPMENT" />
+    <EntitySet Name="QUOTATION_NOTE" EntityType="QUOATATIONModel.QUOTATION_NOTE" />
+    <EntitySet Name="SALE_OFFICE" EntityType="QUOATATIONModel.SALE_OFFICE" />
+    <AssociationSet Name="FK_CUSTOMER_CONTACT_CUSTOMER" Association="QUOATATIONModel.FK_CUSTOMER_CONTACT_CUSTOMER">
+      <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+      <End Role="CUSTOMER_CONTACT" EntitySet="CUSTOMER_CONTACT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EQUIPMENT_EQUIPMENT" Association="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_EQUIPMENT">
+      <End Role="EQUIPMENT" EntitySet="EQUIPMENT" />
+      <End Role="QUOTATION_EQUIPMENT" EntitySet="QUOTATION_EQUIPMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_NOTE_NOTE" Association="QUOATATIONModel.FK_QUOTATION_NOTE_NOTE">
+      <End Role="NOTE" EntitySet="NOTE" />
+      <End Role="QUOTATION_NOTE" EntitySet="QUOTATION_NOTE" />
+    </AssociationSet>
+    <EntitySet Name="QUOTATION" EntityType="QUOATATIONModel.QUOTATION" />
+    <AssociationSet Name="FK_QUOTATION_CUSTOMER_CONTACT" Association="QUOATATIONModel.FK_QUOTATION_CUSTOMER_CONTACT">
+      <End Role="CUSTOMER_CONTACT" EntitySet="CUSTOMER_CONTACT" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EMPLOYEE" Association="QUOATATIONModel.FK_QUOTATION_EMPLOYEE">
+      <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_EQUIPMENT_QUOTATION" Association="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_QUOTATION">
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+      <End Role="QUOTATION_EQUIPMENT" EntitySet="QUOTATION_EQUIPMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_NOTE_QUOTATION" Association="QUOATATIONModel.FK_QUOTATION_NOTE_QUOTATION">
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+      <End Role="QUOTATION_NOTE" EntitySet="QUOTATION_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QUOTATION_SALE_OFFICE" Association="QUOATATIONModel.FK_QUOTATION_SALE_OFFICE">
+      <End Role="SALE_OFFICE" EntitySet="SALE_OFFICE" />
+      <End Role="QUOTATION" EntitySet="QUOTATION" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CUSTOMER">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ADDRESS1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ADDRESS2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MOBILE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CUSTOMER_CONTACT" Relationship="QUOATATIONModel.FK_CUSTOMER_CONTACT_CUSTOMER" FromRole="CUSTOMER" ToRole="CUSTOMER_CONTACT" />
+  </EntityType>
+  <EntityType Name="CUSTOMER_CONTACT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MOBILE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CUSTOMER_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CUSTOMER" Relationship="QUOATATIONModel.FK_CUSTOMER_CONTACT_CUSTOMER" FromRole="CUSTOMER_CONTACT" ToRole="CUSTOMER" />
+    <NavigationProperty Name="QUOTATION" Relationship="QUOATATIONModel.FK_QUOTATION_CUSTOMER_CONTACT" FromRole="CUSTOMER_CONTACT" ToRole="QUOTATION" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="USER_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PASSWORD" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MOBILE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SALE_OFFICE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QUOTATION" Relationship="QUOATATIONModel.FK_QUOTATION_EMPLOYEE" FromRole="EMPLOYEE" ToRole="QUOTATION" />
+  </EntityType>
+  <EntityType Name="EQUIPMENT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TYPE" Type="Int32" />
+    <NavigationProperty Name="QUOTATION_EQUIPMENT" Relationship="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_EQUIPMENT" FromRole="EQUIPMENT" ToRole="QUOTATION_EQUIPMENT" />
+  </EntityType>
+  <EntityType Name="NOTE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DETAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QUOTATION_NOTE" Relationship="QUOATATIONModel.FK_QUOTATION_NOTE_NOTE" FromRole="NOTE" ToRole="QUOTATION_NOTE" />
+  </EntityType>
+  <EntityType Name="QUOTATION_EQUIPMENT">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QUOTATION_ID" Type="Int32" Nullable="false" />
+    <Property Name="EQUIPMENT_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EQUIPMENT" Relationship="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_EQUIPMENT" FromRole="QUOTATION_EQUIPMENT" ToRole="EQUIPMENT" />
+    <NavigationProperty Name="QUOTATION" Relationship="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_QUOTATION" FromRole="QUOTATION_EQUIPMENT" ToRole="QUOTATION" />
+  </EntityType>
+  <EntityType Name="QUOTATION_NOTE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QUOTATION_ID" Type="Int32" Nullable="false" />
+    <Property Name="NOTE_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="NOTE" Relationship="QUOATATIONModel.FK_QUOTATION_NOTE_NOTE" FromRole="QUOTATION_NOTE" ToRole="NOTE" />
+    <NavigationProperty Name="QUOTATION" Relationship="QUOATATIONModel.FK_QUOTATION_NOTE_QUOTATION" FromRole="QUOTATION_NOTE" ToRole="QUOTATION" />
+  </EntityType>
+  <EntityType Name="SALE_OFFICE">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ADDRESS1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ADDRESS2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MOBILE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="WEBSITE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QUOTATION" Relationship="QUOATATIONModel.FK_QUOTATION_SALE_OFFICE" FromRole="SALE_OFFICE" ToRole="QUOTATION" />
+  </EntityType>
+  <Association Name="FK_CUSTOMER_CONTACT_CUSTOMER">
+    <End Type="QUOATATIONModel.CUSTOMER" Role="CUSTOMER" Multiplicity="1" />
+    <End Type="QUOATATIONModel.CUSTOMER_CONTACT" Role="CUSTOMER_CONTACT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_CONTACT">
+        <PropertyRef Name="CUSTOMER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EQUIPMENT_EQUIPMENT">
+    <End Type="QUOATATIONModel.EQUIPMENT" Role="EQUIPMENT" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION_EQUIPMENT" Role="QUOTATION_EQUIPMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EQUIPMENT">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_EQUIPMENT">
+        <PropertyRef Name="EQUIPMENT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_NOTE_NOTE">
+    <End Type="QUOATATIONModel.NOTE" Role="NOTE" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION_NOTE" Role="QUOTATION_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NOTE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_NOTE">
+        <PropertyRef Name="NOTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="QUOTATION">
+    <Key>
+      <PropertyRef Name="AUTO_ID" />
+    </Key>
+    <Property Name="AUTO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TYPE" Type="Int32" />
+    <Property Name="BOSS_RATE" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="BOSS_SHIFT_1" Type="Int32" Nullable="false" />
+    <Property Name="BOSS_SHIFT_2" Type="Int32" Nullable="false" />
+    <Property Name="GUARD_MAN_RATE" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="GUARD_MAN_SHIFT_1" Type="Int32" Nullable="false" />
+    <Property Name="GUARD_MAN_SHIFT_2" Type="Int32" Nullable="false" />
+    <Property Name="GUARD_WOMAN_RATE" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="GUARD_WOMAN_SHIFT_1" Type="Int32" Nullable="false" />
+    <Property Name="GUARD_WOMAN_SHIFT_2" Type="Int32" Nullable="false" />
+    <Property Name="BAIL_RATE" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+    <Property Name="CONTACT_ID" Type="Int32" Nullable="false" />
+    <Property Name="SALE_OFFICE_ID" Type="Int32" Nullable="false" />
+    <Property Name="EMPLOYEE_ID" Type="Int32" Nullable="false" />
+    <Property Name="CRATE_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UPDATE_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="CUSTOMER_CONTACT" Relationship="QUOATATIONModel.FK_QUOTATION_CUSTOMER_CONTACT" FromRole="QUOTATION" ToRole="CUSTOMER_CONTACT" />
+    <NavigationProperty Name="EMPLOYEE" Relationship="QUOATATIONModel.FK_QUOTATION_EMPLOYEE" FromRole="QUOTATION" ToRole="EMPLOYEE" />
+    <NavigationProperty Name="QUOTATION_EQUIPMENT" Relationship="QUOATATIONModel.FK_QUOTATION_EQUIPMENT_QUOTATION" FromRole="QUOTATION" ToRole="QUOTATION_EQUIPMENT" />
+    <NavigationProperty Name="QUOTATION_NOTE" Relationship="QUOATATIONModel.FK_QUOTATION_NOTE_QUOTATION" FromRole="QUOTATION" ToRole="QUOTATION_NOTE" />
+    <NavigationProperty Name="SALE_OFFICE" Relationship="QUOATATIONModel.FK_QUOTATION_SALE_OFFICE" FromRole="QUOTATION" ToRole="SALE_OFFICE" />
+  </EntityType>
+  <Association Name="FK_QUOTATION_CUSTOMER_CONTACT">
+    <End Type="QUOATATIONModel.CUSTOMER_CONTACT" Role="CUSTOMER_CONTACT" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION" Role="QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_CONTACT">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="CONTACT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EMPLOYEE">
+    <End Type="QUOATATIONModel.EMPLOYEE" Role="EMPLOYEE" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION" Role="QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EMPLOYEE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="EMPLOYEE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_EQUIPMENT_QUOTATION">
+    <End Type="QUOATATIONModel.QUOTATION" Role="QUOTATION" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION_EQUIPMENT" Role="QUOTATION_EQUIPMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUOTATION">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_EQUIPMENT">
+        <PropertyRef Name="QUOTATION_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_NOTE_QUOTATION">
+    <End Type="QUOATATIONModel.QUOTATION" Role="QUOTATION" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION_NOTE" Role="QUOTATION_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QUOTATION">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION_NOTE">
+        <PropertyRef Name="QUOTATION_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QUOTATION_SALE_OFFICE">
+    <End Type="QUOATATIONModel.SALE_OFFICE" Role="SALE_OFFICE" Multiplicity="1" />
+    <End Type="QUOATATIONModel.QUOTATION" Role="QUOTATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SALE_OFFICE">
+        <PropertyRef Name="AUTO_ID" />
+      </Principal>
+      <Dependent Role="QUOTATION">
+        <PropertyRef Name="SALE_OFFICE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

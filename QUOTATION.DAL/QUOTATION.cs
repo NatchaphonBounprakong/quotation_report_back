@@ -42,12 +42,12 @@ namespace QUOTATION.DAL
         public string UPDATE_BY { get; set; }
         public Nullable<System.DateTime> UPDATE_DATE { get; set; }
     
+        public virtual CUSTOMER_CONTACT CUSTOMER_CONTACT { get; set; }
+        public virtual EMPLOYEE EMPLOYEE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QUOTATION_EQUIPMENT> QUOTATION_EQUIPMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QUOTATION_NOTE> QUOTATION_NOTE { get; set; }
-        public virtual CUSTOMER_CONTACT CUSTOMER_CONTACT { get; set; }
-        public virtual EMPLOYEE EMPLOYEE { get; set; }
         public virtual SALE_OFFICE SALE_OFFICE { get; set; }
     }
 }

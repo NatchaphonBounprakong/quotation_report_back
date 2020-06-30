@@ -14,6 +14,6 @@ namespace QUOTATION.MODEL
         public DateTime create_date_to { get; set; }
         public DateTime create_date_from { get; set; }
         public string create_by { get; set; }
-
+        public string office { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\QUOTATION.DAL.dll.config
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\QUOTATION.DAL.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\QUOTATION.DAL.pdb
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\EntityFramework.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\EntityFramework.xml
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\obj\Debug\QUOTATION.DAL.csproj.CopyComplete
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\obj\Debug\QUOTATION.DAL.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\obj\Debug\QUOTATION.DAL.pdb
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.DAL\obj\Debug\QUOTATION.DAL.csprojAssemblyReference.cache

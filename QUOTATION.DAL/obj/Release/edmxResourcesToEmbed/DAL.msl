@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QUOATATIONModelStoreContainer" CdmEntityContainer="QUOATATIONEntities">
+    <EntitySetMapping Name="CUSTOMER">
+      <EntityTypeMapping TypeName="QUOATATIONModel.CUSTOMER">
+        <MappingFragment StoreEntitySet="CUSTOMER">
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="ADDRESS2" ColumnName="ADDRESS2" />
+          <ScalarProperty Name="ADDRESS1" ColumnName="ADDRESS1" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CUSTOMER_CONTACT">
+      <EntityTypeMapping TypeName="QUOATATIONModel.CUSTOMER_CONTACT">
+        <MappingFragment StoreEntitySet="CUSTOMER_CONTACT">
+          <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EMPLOYEE">
+      <EntityTypeMapping TypeName="QUOATATIONModel.EMPLOYEE">
+        <MappingFragment StoreEntitySet="EMPLOYEE">
+          <ScalarProperty Name="SALE_OFFICE" ColumnName="SALE_OFFICE" />
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+          <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EQUIPMENT">
+      <EntityTypeMapping TypeName="QUOATATIONModel.EQUIPMENT">
+        <MappingFragment StoreEntitySet="EQUIPMENT">
+          <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NOTE">
+      <EntityTypeMapping TypeName="QUOATATIONModel.NOTE">
+        <MappingFragment StoreEntitySet="NOTE">
+          <ScalarProperty Name="DETAIL" ColumnName="DETAIL" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QUOTATION_EQUIPMENT">
+      <EntityTypeMapping TypeName="QUOATATIONModel.QUOTATION_EQUIPMENT">
+        <MappingFragment StoreEntitySet="QUOTATION_EQUIPMENT">
+          <ScalarProperty Name="EQUIPMENT_ID" ColumnName="EQUIPMENT_ID" />
+          <ScalarProperty Name="QUOTATION_ID" ColumnName="QUOTATION_ID" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QUOTATION_NOTE">
+      <EntityTypeMapping TypeName="QUOATATIONModel.QUOTATION_NOTE">
+        <MappingFragment StoreEntitySet="QUOTATION_NOTE">
+          <ScalarProperty Name="NOTE_ID" ColumnName="NOTE_ID" />
+          <ScalarProperty Name="QUOTATION_ID" ColumnName="QUOTATION_ID" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SALE_OFFICE">
+      <EntityTypeMapping TypeName="QUOATATIONModel.SALE_OFFICE">
+        <MappingFragment StoreEntitySet="SALE_OFFICE">
+          <ScalarProperty Name="WEBSITE" ColumnName="WEBSITE" />
+          <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+          <ScalarProperty Name="ADDRESS2" ColumnName="ADDRESS2" />
+          <ScalarProperty Name="ADDRESS1" ColumnName="ADDRESS1" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QUOTATION">
+      <EntityTypeMapping TypeName="QUOATATIONModel.QUOTATION">
+        <MappingFragment StoreEntitySet="QUOTATION">
+          <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+          <ScalarProperty Name="UPDATE_BY" ColumnName="UPDATE_BY" />
+          <ScalarProperty Name="CRATE_BY" ColumnName="CRATE_BY" />
+          <ScalarProperty Name="EMPLOYEE_ID" ColumnName="EMPLOYEE_ID" />
+          <ScalarProperty Name="SALE_OFFICE_ID" ColumnName="SALE_OFFICE_ID" />
+          <ScalarProperty Name="CONTACT_ID" ColumnName="CONTACT_ID" />
+          <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+          <ScalarProperty Name="BAIL_RATE" ColumnName="BAIL_RATE" />
+          <ScalarProperty Name="GUARD_WOMAN_SHIFT_2" ColumnName="GUARD_WOMAN_SHIFT_2" />
+          <ScalarProperty Name="GUARD_WOMAN_SHIFT_1" ColumnName="GUARD_WOMAN_SHIFT_1" />
+          <ScalarProperty Name="GUARD_WOMAN_RATE" ColumnName="GUARD_WOMAN_RATE" />
+          <ScalarProperty Name="GUARD_MAN_SHIFT_2" ColumnName="GUARD_MAN_SHIFT_2" />
+          <ScalarProperty Name="GUARD_MAN_SHIFT_1" ColumnName="GUARD_MAN_SHIFT_1" />
+          <ScalarProperty Name="GUARD_MAN_RATE" ColumnName="GUARD_MAN_RATE" />
+          <ScalarProperty Name="BOSS_SHIFT_2" ColumnName="BOSS_SHIFT_2" />
+          <ScalarProperty Name="BOSS_SHIFT_1" ColumnName="BOSS_SHIFT_1" />
+          <ScalarProperty Name="BOSS_RATE" ColumnName="BOSS_RATE" />
+          <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+          <ScalarProperty Name="NO" ColumnName="NO" />
+          <ScalarProperty Name="AUTO_ID" ColumnName="AUTO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

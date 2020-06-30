@@ -39,13 +39,23 @@ namespace QUOTATION.SERVICE
             {
                 using (var ctx = new QUOATATIONEntities())
                 {
-                    var obj = ctx.EQUIPMENT.ToList();
-                    obj.ForEach(o =>
-                    {
-                        o.QUOTATION_EQUIPMENT = null;
-                    });
+                    var obj = ctx.EQUIPMENT.Include("QUOTATION_EQUIPMENT").ToList();
+                    //obj.ForEach(o =>
+                    //{
+                    //    o.QUOTATION_EQUIPMENT = null;
+                    //});
 
-                    response.result = obj;
+                    var equip = (from item in obj
+                                 select new
+                                 {
+                                     AUTO_ID= item.AUTO_ID,
+                                     NAME = item.NAME,
+                                     TYPE = item.TYPE,
+                                     QUOTA= item.QUOTATION_EQUIPMENT != null ? item.QUOTATION_EQUIPMENT.Count():0
+
+                                 }).ToList();
+
+                    response.result = equip;
                     response.status = true;
                 }
             }
@@ -78,7 +88,7 @@ namespace QUOTATION.SERVICE
                             {
                                 k.QUOTATION = null;
                                 k.CUSTOMER = null;
-                        }
+                            }
                         }
 
                     });
@@ -153,5 +163,72 @@ namespace QUOTATION.SERVICE
             return response;
         }
 
+        public Response ManageEquipment(string pl)
+        {
+            EquipmentPayload payload = null;
+            if (pl != null)
+            {
+                payload = Newtonsoft.Json.JsonConvert.DeserializeObject<EquipmentPayload>(pl);
+            }
+
+            Response response = new Response();
+            try
+            {
+                using (var ctx = new QUOATATIONEntities())
+                {
+                    if (payload.id != 0)
+                    {
+                        var equipment = ctx.EQUIPMENT.Where(o => o.AUTO_ID == payload.id).FirstOrDefault();
+                        if (equipment != null)
+                        {
+                            equipment.NAME = payload.name;
+                            equipment.TYPE = payload.type;
+                        }
+                    }
+                    else
+                    {
+                        var equip = new EQUIPMENT()
+                        {
+                            NAME = payload.name,
+                            TYPE = payload.type
+                        };
+                        ctx.EQUIPMENT.Add(equip);
+                    }
+                    ctx.SaveChanges();
+                    response.status = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.status = false;
+                response.message = ex.Message;
+
+            }
+
+            return response;
+        }
+
+        public Response DeleteEquipment(int id)
+        {
+            Response response = new Response();
+            try
+            {
+                using (var ctx = new QUOATATIONEntities())
+                {
+                    var equipment = ctx.EQUIPMENT.Where(o => o.AUTO_ID == id).FirstOrDefault();
+                    ctx.EQUIPMENT.Remove(equipment);
+                    ctx.SaveChanges();
+                    response.status = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.status = false;
+                response.message = ex.Message;
+
+            }
+
+            return response;
+        }
     }
 }

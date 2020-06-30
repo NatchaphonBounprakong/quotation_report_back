@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EquipmentPayload.cs" />
     <Compile Include="FilterPayload.cs" />
     <Compile Include="QuotationInvoice.cs" />
     <Compile Include="QuotationPayload.cs" />

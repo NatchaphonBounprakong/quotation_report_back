@@ -18,6 +18,7 @@ namespace QUOTATION.API.Controllers
             return View();
         }
 
+        //[HttpPost]
         public JsonResult Login(user user)
         {
             resp = authService.Login(user);

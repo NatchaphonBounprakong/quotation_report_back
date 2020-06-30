@@ -93,9 +93,6 @@
     <Compile Include="SALE_OFFICE.cs">
       <DependentUpon>DAL.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>DAL.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DAL.edmx">

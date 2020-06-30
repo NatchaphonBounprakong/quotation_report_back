@@ -41,6 +41,17 @@ namespace QUOTATION.API.Controllers
             return Json(resp, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ManageEquipment(string payload)
+        {
+            resp = eqpService.ManageEquipment(payload);
+            return Json(resp, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteEquipment(int id)
+        {
+            resp = eqpService.DeleteEquipment(id);
+            return Json(resp, JsonRequestBehavior.AllowGet);
+        }
 
 
 

@@ -32,10 +32,9 @@ namespace QUOTATION.DAL
         public virtual DbSet<EMPLOYEE> EMPLOYEE { get; set; }
         public virtual DbSet<EQUIPMENT> EQUIPMENT { get; set; }
         public virtual DbSet<NOTE> NOTE { get; set; }
-        public virtual DbSet<QUOTATION> QUOTATION { get; set; }
         public virtual DbSet<QUOTATION_EQUIPMENT> QUOTATION_EQUIPMENT { get; set; }
         public virtual DbSet<QUOTATION_NOTE> QUOTATION_NOTE { get; set; }
         public virtual DbSet<SALE_OFFICE> SALE_OFFICE { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<QUOTATION> QUOTATION { get; set; }
     }
 }

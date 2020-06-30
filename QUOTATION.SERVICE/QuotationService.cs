@@ -38,10 +38,42 @@ namespace QUOTATION.SERVICE
                     SALE_OFFICE_ID = payload.SALE_OFFICE_ID,
                     CONTACT_ID = payload.CONTACT_ID,
                     EMPLOYEE_ID = payload.EMPLOYEE_ID,
+                    UPDATE_DATE = DateTime.Now,
+                    UPDATE_BY = payload.EMPLOYEE_ID.ToString()
                 };
+
+
 
                 using (QUOATATIONEntities ctx = new QUOATATIONEntities())
                 {
+
+                    //var customer_contact = ctx.CUSTOMER_CONTACT.Where(o => o.NAME.Trim() == q.CUSTOMER_CONTACT);
+                    var customerContactId = 0;
+                    var customer = ctx.CUSTOMER.Include("CUSTOMER_CONTACT").Where(o => o.NAME.Trim() == payload.CUSTOMER.Trim()).FirstOrDefault();
+
+                    var newCustomer = new CUSTOMER()
+                    {
+                        NAME = payload.CUSTOMER.Trim(),
+                        CUSTOMER_CONTACT = new List<CUSTOMER_CONTACT>()
+                            {
+                                new CUSTOMER_CONTACT()
+                                {
+                                    NAME =  payload.CUSTOMER_CONTACT.Trim(),
+                                    MOBILE = payload.CUSTOMER_CONTACT_PHONE.Trim()
+                                    
+                                }
+                            }
+
+                    };
+
+                    ctx.CUSTOMER.Add(newCustomer);
+                    ctx.SaveChanges();
+                    customerContactId = newCustomer.CUSTOMER_CONTACT.FirstOrDefault().AUTO_ID;
+
+
+                    q.CONTACT_ID = customerContactId;
+
+
                     var qObj = ctx.QUOTATION.Add(q);
                     ctx.SaveChanges();
 
@@ -126,7 +158,7 @@ namespace QUOTATION.SERVICE
 
                 using (QUOATATIONEntities ctx = new QUOATATIONEntities())
                 {
-                    var quoat = ctx.QUOTATION.Where(o => o.AUTO_ID == payload.AUTO_ID).FirstOrDefault();
+                    var quoat = ctx.QUOTATION.Include("CUSTOMER_CONTACT").Where(o => o.AUTO_ID == payload.AUTO_ID).FirstOrDefault();
 
                     if (quoat != null)
                     {
@@ -146,7 +178,13 @@ namespace QUOTATION.SERVICE
                         quoat.SALE_OFFICE_ID = payload.SALE_OFFICE_ID;
                         quoat.CONTACT_ID = payload.CONTACT_ID;
                         quoat.EMPLOYEE_ID = payload.EMPLOYEE_ID;
+                        quoat.UPDATE_DATE = DateTime.Now;
+                        quoat.UPDATE_BY = payload.EMPLOYEE_ID.ToString();
                     }
+
+
+                    quoat.CUSTOMER_CONTACT.NAME = payload.CUSTOMER_CONTACT;
+                    quoat.CUSTOMER_CONTACT.MOBILE = payload.CUSTOMER_CONTACT_PHONE;
 
                     var deletedQNotes = ctx.QUOTATION_NOTE.Where(o => o.QUOTATION_ID == quoat.AUTO_ID).ToList();
                     var deletedQNotesIds = deletedQNotes.Select(o => o.NOTE_ID).ToList();
@@ -233,13 +271,15 @@ namespace QUOTATION.SERVICE
                         .Include("QUOTATION_NOTE")
                         //.Include("QUOTATION_EQUIPMENT.EQUIPMENT")
                         .Include("QUOTATION_NOTE.NOTE")
+                        .Include("CUSTOMER_CONTACT")
+                        .Include("CUSTOMER_CONTACT.CUSTOMER")
                         .Where(o => o.AUTO_ID == id).FirstOrDefault();
                     QuotationPayload quotation = new QuotationPayload()
                     {
                         AUTO_ID = q.AUTO_ID,
                         NO = q.NO,
                         TYPE = q.TYPE,
-                        BOSS_RATE = q.TYPE,
+                        BOSS_RATE = q.BOSS_RATE,
                         BOSS_SHIFT_1 = q.BOSS_SHIFT_1,
                         BOSS_SHIFT_2 = q.BOSS_SHIFT_2,
                         GUARD_MAN_RATE = q.GUARD_MAN_RATE,
@@ -253,6 +293,9 @@ namespace QUOTATION.SERVICE
                         CONTACT_ID = q.CONTACT_ID,
                         SALE_OFFICE_ID = q.SALE_OFFICE_ID,
                         EMPLOYEE_ID = q.EMPLOYEE_ID,
+                        CUSTOMER = q.CUSTOMER_CONTACT.CUSTOMER.NAME,
+                        CUSTOMER_CONTACT = q.CUSTOMER_CONTACT.NAME,
+                        CUSTOMER_CONTACT_PHONE = q.CUSTOMER_CONTACT.MOBILE
                     };
                     if (q != null)
                     {
@@ -282,7 +325,6 @@ namespace QUOTATION.SERVICE
 
             return response;
         }
-
         public Response GetQuotationForReport(int id)
         {
 
@@ -321,17 +363,20 @@ namespace QUOTATION.SERVICE
                         guard_man_amount1 = q.GUARD_MAN_SHIFT_1,
                         guard_man_amount2 = q.GUARD_MAN_SHIFT_2,
                         guard_man_rate = q.GUARD_MAN_RATE.ToString("#,##0.00"),
-                        guard_man_total = (Convert.ToDecimal(q.GUARD_WOMAN_SHIFT_1 + q.GUARD_WOMAN_SHIFT_2) * q.GUARD_WOMAN_RATE).ToString("#,##0.00"),
+                        guard_man_total = (Convert.ToDecimal(q.GUARD_MAN_SHIFT_1 + q.GUARD_MAN_SHIFT_2) * q.GUARD_MAN_RATE).ToString("#,##0.00"),
                         guard_woman_amount1 = q.GUARD_WOMAN_SHIFT_1,
                         guard_woman_amount2 = q.GUARD_WOMAN_SHIFT_2,
                         guard_woman_rate = q.GUARD_WOMAN_RATE.ToString("#,##0.00"),
                         guard_woman_total = (Convert.ToDecimal(q.GUARD_WOMAN_SHIFT_1 + q.GUARD_WOMAN_SHIFT_2) * q.GUARD_WOMAN_RATE).ToString("#,##0.00"),
-                        bali_rate = q.BAIL_RATE != null ? Convert.ToDecimal(q.BAIL_RATE).ToString("#,##0.00"):"0",
+                        bali_rate = q.BAIL_RATE != null ? Convert.ToDecimal(q.BAIL_RATE).ToString("#,##0.00") : "0",
 
                     };
                     qInvoice.equipment_set_1 = new List<NameVal>();
                     qInvoice.equipment_set_2 = new List<NameVal>();
                     qInvoice.note = new List<NameVal>();
+
+
+
 
                     var listEquip = q.QUOTATION_EQUIPMENT.Select(o => o.EQUIPMENT.NAME).ToList();
                     var listNote = q.QUOTATION_NOTE.Select(o => o.NOTE.DETAIL).ToList();
@@ -352,11 +397,17 @@ namespace QUOTATION.SERVICE
                         }
                     }
 
-                    qInvoice.total = (Convert.ToDecimal(qInvoice.guard_boss_total) + Convert.ToDecimal(qInvoice.guard_man_total) + Convert.ToDecimal(qInvoice.guard_woman_total)).ToString();
-                    if (qInvoice.bali_rate != null)
-                    {
-                        qInvoice.total = (Convert.ToDecimal(qInvoice.total) +Convert.ToDecimal(qInvoice.bali_rate)).ToString("#,##0.00");
-                    }
+                    var allGuard = qInvoice.guard_boss_amount1 + qInvoice.guard_boss_amount2 + qInvoice.guard_man_amount1 + qInvoice.guard_man_amount2
+                        + qInvoice.guard_woman_amount1 + qInvoice.guard_woman_amount2;
+
+                    qInvoice.bali_rate = (Convert.ToDecimal(q.BAIL_RATE) * Convert.ToDecimal(allGuard)).ToString("#,##0.00");
+
+                    qInvoice.total = (Convert.ToDecimal(qInvoice.guard_boss_total) + Convert.ToDecimal(qInvoice.guard_man_total) + Convert.ToDecimal(qInvoice.guard_woman_total)).ToString("#,##0.00");
+                    //if (qInvoice.bali_rate != null)
+                    //{
+                    //    qInvoice.total = (Convert.ToDecimal(qInvoice.total) + Convert.ToDecimal(qInvoice.bali_rate)).ToString("#,##0.00");
+                    //}
+
 
                     qInvoice.vat = ((Convert.ToDecimal(7) * Convert.ToDecimal(qInvoice.total)) / Convert.ToDecimal(100)).ToString("#,##0.00");
                     qInvoice.total_vat = (Convert.ToDecimal(qInvoice.total) + Convert.ToDecimal(qInvoice.vat)).ToString("#,##0.00");
@@ -402,6 +453,7 @@ namespace QUOTATION.SERVICE
                         var no = (max + 1).ToString().PadLeft(4, '0') + "/" + year;
                         var currQuoat = ctx.QUOTATION.Where(o => o.AUTO_ID == id).FirstOrDefault();
                         currQuoat.NO = no;
+                        currQuoat.UPDATE_DATE = DateTime.Now;
                         response.result = currQuoat.NO;
                         response.message = currQuoat.AUTO_ID.ToString();
                     }
@@ -410,6 +462,7 @@ namespace QUOTATION.SERVICE
                         var no = (1).ToString().PadLeft(4, '0') + "/" + year;
                         var currQuoat = ctx.QUOTATION.Where(o => o.AUTO_ID == id).FirstOrDefault();
                         currQuoat.NO = no;
+                        currQuoat.UPDATE_DATE = DateTime.Now;
                         response.result = currQuoat.NO;
                         response.message = currQuoat.AUTO_ID.ToString();
                     }
@@ -427,7 +480,6 @@ namespace QUOTATION.SERVICE
 
             return response;
         }
-
         public Response GetListQuotation(string pl)
         {
             FilterPayload payload = null;
@@ -472,13 +524,36 @@ namespace QUOTATION.SERVICE
                         if (payload.create_date_to != null)
                             query = query.Where(o => o.CREATE_DATE <= payload.create_date_to);
 
-                        if (payload.create_by != "" && payload.create_by != null)
-                            query = query.Where(o => o.EMPLOYEE.NAME.Contains(payload.create_by));
+                        if (payload.office != "" && payload.office != null)
+                            query = query.Where(o => o.SALE_OFFICE.NAME.Contains(payload.office));
 
                     }
 
 
-                    var rawQuotas = query.ToList();
+                    var rawQuotas = query.OrderByDescending(o => o.UPDATE_DATE).ToList();
+
+
+
+                    var date = DateTime.Now;
+                    var year = (date.Year + 543).ToString().Substring(2);
+                    var quoatList = rawQuotas.Where(o => o.NO.Contains("/" + year)).Select(o => o.NO).ToList();
+                    List<int> lno = new List<int>();
+
+                    quoatList.ForEach(o =>
+                    {
+                        var obj = Convert.ToInt32(o.Substring(0, 4));
+                        lno.Add(obj);
+                    });
+
+                    var no = (1).ToString().PadLeft(4, '0') + "/" + year;
+                    if (lno.Count > 0)
+                    {
+                        var max = lno.Max();
+                        no = (max + 1).ToString().PadLeft(4, '0') + "/" + year;
+                    }
+
+
+
                     var quotas = (from item in rawQuotas
                                   select new
                                   {
@@ -488,10 +563,29 @@ namespace QUOTATION.SERVICE
                                       CUSTOMER_CONTACT = item.CUSTOMER_CONTACT != null ? item.CUSTOMER_CONTACT.NAME : "",
                                       CREATE_DATE = item.CREATE_DATE != null ? Convert.ToDateTime(item.CREATE_DATE).ToString("MM/dd/yyyy") : "",
                                       EMPLOYEE_NAME = item.EMPLOYEE != null ? item.EMPLOYEE.NAME : "",
-                                      TOTAL = 1000,
-                                      SALE_OFFICE = item.SALE_OFFICE != null ? item.SALE_OFFICE.NAME : ""
+                                      TOTAL = (((
+
+                                      (Convert.ToDecimal(item.BOSS_RATE) * (Convert.ToDecimal(item.BOSS_SHIFT_1) + Convert.ToDecimal(item.BOSS_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.GUARD_MAN_RATE) * (Convert.ToDecimal(item.GUARD_MAN_SHIFT_1) + Convert.ToDecimal(item.GUARD_MAN_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.GUARD_WOMAN_RATE) * (Convert.ToDecimal(item.GUARD_WOMAN_SHIFT_1) + Convert.ToDecimal(item.GUARD_WOMAN_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.BAIL_RATE) * (Convert.ToDecimal(item.BOSS_SHIFT_1 + item.BOSS_SHIFT_2 + item.GUARD_MAN_SHIFT_1 + item.GUARD_MAN_SHIFT_2 + item.GUARD_WOMAN_SHIFT_1 + item.GUARD_WOMAN_SHIFT_2)))
+
+                                      ) * Convert.ToDecimal(7) / Convert.ToDecimal(100)) + (
+
+                                      (Convert.ToDecimal(item.BOSS_RATE) * (Convert.ToDecimal(item.BOSS_SHIFT_1) + Convert.ToDecimal(item.BOSS_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.GUARD_MAN_RATE) * (Convert.ToDecimal(item.GUARD_MAN_SHIFT_1) + Convert.ToDecimal(item.GUARD_MAN_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.GUARD_WOMAN_RATE) * (Convert.ToDecimal(item.GUARD_WOMAN_SHIFT_1) + Convert.ToDecimal(item.GUARD_WOMAN_SHIFT_1))) +
+                                      (Convert.ToDecimal(item.BAIL_RATE) * (Convert.ToDecimal(item.BOSS_SHIFT_1 + item.BOSS_SHIFT_2 + item.GUARD_MAN_SHIFT_1 + item.GUARD_MAN_SHIFT_2 + item.GUARD_WOMAN_SHIFT_1 + item.GUARD_WOMAN_SHIFT_2)))
+
+                                      )).ToString("#,##0.00"),
+                                      SALE_OFFICE = item.SALE_OFFICE != null ? item.SALE_OFFICE.NAME : "",
+                                      LAST = no,
+                                      SOMTHING = Calculate("1"),
 
                                   }).ToList();
+
+
+
 
 
                     response.result = quotas;
@@ -506,6 +600,15 @@ namespace QUOTATION.SERVICE
             }
 
 
+            return response;
+        }
+
+        private string Calculate(string a)
+        {
+            return "1";
+        }
+        public Response SendEmail(int employee_id, int quotation_id)
+        {
             return response;
         }
     }

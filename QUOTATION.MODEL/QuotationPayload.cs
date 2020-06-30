@@ -26,7 +26,9 @@ namespace QUOTATION.MODEL
         public int SALE_OFFICE_ID { get; set; }
        
         public int EMPLOYEE_ID { get; set; }
-
+        public string CUSTOMER { get; set; }
+        public string CUSTOMER_CONTACT{ get; set; }
+        public string CUSTOMER_CONTACT_PHONE { get; set; }
         public List<int> EQUIPMENT_ID { get; set; }
         public List<string> NOTE { get; set; }
         //public list

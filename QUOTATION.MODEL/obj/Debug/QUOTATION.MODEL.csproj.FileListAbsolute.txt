@@ -1,0 +1,5 @@
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.MODEL\bin\Debug\QUOTATION.MODEL.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.MODEL\bin\Debug\QUOTATION.MODEL.pdb
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.MODEL\obj\Debug\QUOTATION.MODEL.dll
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.MODEL\obj\Debug\QUOTATION.MODEL.pdb
+C:\Users\Rock\source\repos\QUAOTATION\QUOTATION.MODEL\obj\Debug\QUOTATION.MODEL.csprojAssemblyReference.cache
